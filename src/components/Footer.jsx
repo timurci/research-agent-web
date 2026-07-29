@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 
 const GITHUB_URL = "https://github.com/timurci/research-agent";
+const FRONTEND_URL = "https://github.com/timurci/research-agent-web";
 
 const PRIVACY_SECTIONS = [
   {
@@ -71,6 +72,15 @@ function Footer() {
       >
         <GitHubIcon className="size-5" />
         Backend
+      </a>
+      <a
+        href={FRONTEND_URL}
+        target="_blank"
+        rel="noreferrer"
+        className="inline-flex items-center gap-1.5 hover:text-zinc-800 dark:hover:text-zinc-200 transition"
+      >
+        <GitHubIcon className="size-5" />
+        Frontend
       </a>
       <button
         type="button"
