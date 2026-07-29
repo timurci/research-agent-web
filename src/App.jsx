@@ -2,18 +2,27 @@ import Navbar from "./components/Navbar";
 import SearchBar from "./components/SearchBar";
 import Results from "./components/Results";
 import { useState } from "react";
+import Error from "./components/Error";
+import { mockResults } from "./utils/mock";
 
 function App() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
+  const [error, setError] = useState(null);
 
   async function handleSearch(query) {
     setLoading(true);
     setResults(null);
+    setError(null);
 
-    console.log(query);
-
-    // perform search
+    try {
+      const results = await mockResults(query);
+      setResults(results);
+    } catch (err) {
+      setError(err.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -26,7 +35,11 @@ function App() {
           Research Agent
         </h1>
         <SearchBar onSearch={handleSearch} />
-        <Results loading={loading} results={results} />
+        {error ? (
+          <Error message={error} />
+        ) : (
+          <Results loading={loading} results={results} />
+        )}
       </div>
     </div>
   );
