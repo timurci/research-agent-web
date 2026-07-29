@@ -3,7 +3,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 function SearchBar() {
   return (
     <div className="flex justify-center">
-      <div className="flex w-fit text-zinc-800 bg-zinc-300 p-5 rounded-4xl shadow-sm shadow-black/20">
+      <div className="flex w-fit text-zinc-800 bg-zinc-200 dark:text-zinc-100 dark:bg-zinc-600 p-5 rounded-4xl shadow-md shadow-black/10">
         <TextArea />
         <SearchButton />
       </div>
