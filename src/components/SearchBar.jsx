@@ -5,8 +5,8 @@ function SearchBar({ onSearch }) {
   const [query, setQuery] = useState("");
 
   return (
-    <div className="flex justify-center">
-      <div className="flex w-fit text-zinc-800 bg-zinc-200 dark:text-zinc-100 dark:bg-zinc-600 p-5 rounded-4xl shadow-md shadow-black/10">
+    <div className="flex w-full max-w-2xl px-4 justify-center">
+      <div className="flex w-full text-zinc-800 bg-zinc-200 dark:text-zinc-100 dark:bg-zinc-600 p-5 rounded-4xl shadow-md shadow-black/10">
         <TextArea query={query} setQuery={setQuery} onSearch={onSearch} />
         <SearchButton query={query} onClick={onSearch} />
       </div>
@@ -26,7 +26,7 @@ function TextArea({ query, setQuery, onSearch }) {
       }}
       value={query}
       onChange={(e) => setQuery(e.target.value)}
-      className="text-md resize-none md:text-lg min-w-lg sm:min-w-xl md:min-w-2xl lg:min-w-4xl focus:outline-none"
+      className="text-md resize-none md:text-lg w-full flex-1 min-w-0 focus:outline-none"
       onKeyDown={(e) => {
         if (e.key === "Enter") {
           e.preventDefault();

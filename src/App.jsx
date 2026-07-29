@@ -27,12 +27,12 @@ function App() {
   }
 
   return (
-    <div className="relative flex flex-col h-screen">
+    <div className="relative flex min-h-dvh flex-col">
       <div className="absolute top-0 left-0 right-0 z-10">
         <Navbar />
       </div>
-      <main className="flex-1 overflow-auto">
-        <div className="flex min-h-full flex-col justify-center items-center px-4 py-10">
+      <main className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col justify-center items-center px-4 pt-20 pb-10">
           <h1 className="text-center font-bold text-5xl md:text-6xl text-zinc-700 dark:text-zinc-50 mb-20">
             Research Agent
           </h1>
