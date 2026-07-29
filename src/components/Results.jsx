@@ -1,18 +1,11 @@
-import { ArrowDownTrayIcon, ArrowTopRightOnSquareIcon, SparklesIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowDownTrayIcon,
+  ArrowTopRightOnSquareIcon,
+  SparklesIcon,
+} from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
 
-function Results({ loading, results }) {
-  let content;
-  if (loading) {
-    content = <LoadingStatus />;
-  } else if (results) {
-    content = <SearchResults results={results} />;
-  }
-
-  return <div className="flex justify-center">{content}</div>;
-}
-
-function LoadingStatus() {
+export function LoadingStatus() {
   const words = [
     "Searching",
     "Exploring",
@@ -69,16 +62,15 @@ function ResultFeedback({ traceId }) {
           No
         </button>
       </div>
-      <div className="flex justify-center">
-        <p>traceId: {traceId}</p>
-      </div>
     </div>
     // send feedback to backend
   );
 }
 
 function downloadPapersAsJson(papers) {
-  const blob = new Blob([JSON.stringify(papers, null, 2)], { type: "application/json" });
+  const blob = new Blob([JSON.stringify(papers, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -89,10 +81,12 @@ function downloadPapersAsJson(papers) {
   URL.revokeObjectURL(url);
 }
 
-function SearchResults({ results }) {
+export function SearchResults({ results }) {
   return (
-    <div className="flex flex-col gap-2 justify-center">
-      <ResultFeedback traceId={results.traceId} />
+    <div className="flex flex-col justify-center gap-2">
+      <div className="pb-6">
+        <ResultFeedback traceId={results.traceId} />
+      </div>
       <SuggestionCard suggestion={results.suggestion} />
       <div className="flex justify-center">
         <button
@@ -176,5 +170,3 @@ function PaperCard({ paper }) {
     </li>
   );
 }
-
-export default Results;
