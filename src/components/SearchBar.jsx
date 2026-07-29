@@ -1,17 +1,20 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { useState } from "react";
 
-function SearchBar() {
+function SearchBar({ onSearch }) {
+  const [query, setQuery] = useState("");
+
   return (
     <div className="flex justify-center">
       <div className="flex w-fit text-zinc-800 bg-zinc-200 dark:text-zinc-100 dark:bg-zinc-600 p-5 rounded-4xl shadow-md shadow-black/10">
-        <TextArea />
-        <SearchButton />
+        <TextArea query={query} setQuery={setQuery} onSearch={onSearch} />
+        <SearchButton query={query} onClick={onSearch} />
       </div>
     </div>
   );
 }
 
-function TextArea() {
+function TextArea({ query, setQuery, onSearch }) {
   return (
     <textarea
       placeholder="Is social media use linked to anxiety in teenagers?"
@@ -21,14 +24,22 @@ function TextArea() {
         e.target.style.height = "auto";
         e.target.style.height = e.target.scrollHeight + "px";
       }}
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
       className="text-md resize-none md:text-lg min-w-lg sm:min-w-xl md:min-w-2xl lg:min-w-4xl focus:outline-none"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          onSearch(e.target.value);
+        }
+      }}
     />
   );
 }
 
-function SearchButton() {
+function SearchButton({ query, onClick }) {
   return (
-    <button className="cursor-pointer">
+    <button className="cursor-pointer" onClick={() => onClick(query)}>
       <MagnifyingGlassIcon className="size-7" />
     </button>
   );

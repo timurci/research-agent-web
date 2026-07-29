@@ -24,7 +24,7 @@ function ThemePicker() {
   }
 
   return (
-    <div className="flex w-fit gap-1 p-1 text-zinc-800 bg-zinc-400 inset-shadow-black/20 inset-shadow-sm rounded-3xl">
+    <div className="flex w-fit gap-1 p-1 md:p-1.5 text-zinc-800 bg-zinc-400 inset-shadow-black/20 inset-shadow-sm rounded-4xl">
       <ThemeButton
         value={<SunIcon className="size-7" />}
         active={theme === "light"}
@@ -50,7 +50,7 @@ function ThemeButton({ value, active, onClick }) {
     : "hover:bg-zinc-300";
   return (
     <button
-      className={`transition cursor-pointer p-1 rounded-3xl ${accent}`}
+      className={`transition cursor-pointer p-1 md:p-1.5 rounded-4xl ${accent}`}
       onClick={onClick}
     >
       {value}
