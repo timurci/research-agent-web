@@ -4,6 +4,7 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
+import ReactMarkdown from "react-markdown";
 import { sendFeedback } from "../api/client";
 
 export function LoadingStatus() {
@@ -117,11 +118,13 @@ export function SearchResults({ results }) {
           Download results (JSON)
         </button>
       </div>
-      <ol className="flex flex-col gap-3 list-none p-0">
-        {results.papers.map((result, index) => (
-          <PaperCard key={index} paper={result} />
-        ))}
-      </ol>
+      <div className="max-h-[60vh] overflow-y-auto overscroll-contain pr-2 [mask-image:linear-gradient(to_bottom,black_97%,transparent)]">
+        <ol className="flex flex-col gap-3 list-none p-0">
+          {results.papers.map((result, index) => (
+            <PaperCard key={index} paper={result} />
+          ))}
+        </ol>
+      </div>
     </div>
   );
 }
@@ -133,7 +136,11 @@ function SuggestionCard({ suggestion }) {
         <SparklesIcon className="size-6 mt-0.5 shrink-0 text-amber-500 dark:text-amber-400" />
         <div>
           <p className="font-semibold mb-1">Suggested approach</p>
-          <p>{suggestion}</p>
+          <ReactMarkdown
+            className="prose prose-sm max-w-none dark:prose-invert prose-a:text-amber-600 prose-a:font-medium dark:prose-a:text-amber-400"
+          >
+            {suggestion}
+          </ReactMarkdown>
         </div>
       </div>
     </div>

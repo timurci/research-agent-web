@@ -28,6 +28,11 @@ function ServerStatus() {
       <span className={text}>
         Server status: {isUp ? "up" : "down"}
       </span>
+      {!isUp && (
+        <span className="hidden sm:inline text-zinc-400 dark:text-zinc-500 font-normal">
+          wakes up in ~1 min
+        </span>
+      )}
     </div>
   );
 }
