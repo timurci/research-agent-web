@@ -49,12 +49,14 @@ async function request(path, options = {}) {
 }
 
 export async function getHealth() {
-  const data = await request("/health/");
+  const data = await request("/health", {
+    signal: AbortSignal.timeout(15000),
+  });
   return HealthResponseSchema.parse(data);
 }
 
 export async function searchResearch(text) {
-  const data = await request("/search/", {
+  const data = await request("/search", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ text }),
@@ -63,7 +65,7 @@ export async function searchResearch(text) {
 }
 
 export async function sendFeedback({ traceId, useful }) {
-  await request("/feedback/", {
+  await request("/feedback", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ trace_id: traceId, useful }),
