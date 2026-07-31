@@ -6,4 +6,5 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   base: '/research-agent-web/',
+  envPrefix: ['VITE_', 'BACKEND_'],
 })

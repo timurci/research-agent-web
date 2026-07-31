@@ -1,0 +1,3 @@
+- make the transition smoother on search
+- prompt user to provide text feedback
+- add footer for privacy note and github link

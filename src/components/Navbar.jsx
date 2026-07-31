@@ -1,8 +1,10 @@
+import ServerStatus from "./ServerStatus";
 import ThemePicker from "./ThemePicker";
 
 function Navbar() {
   return (
-    <nav className="flex justify-end p-2 md:p-4">
+    <nav className="flex justify-between items-center p-2 md:p-4">
+      <ServerStatus />
       <ThemePicker />
     </nav>
   );

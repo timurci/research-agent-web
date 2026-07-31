@@ -4,7 +4,7 @@ import { LoadingStatus, SearchResults } from "./components/Results";
 import { useState } from "react";
 import Error from "./components/Error";
 import Footer from "./components/Footer";
-import { mockResults } from "./utils/mock";
+import { searchResearch } from "./api/client";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -17,7 +17,7 @@ function App() {
     setError(null);
 
     try {
-      const results = await mockResults(query);
+      const results = await searchResearch(query);
       setResults(results);
     } catch (err) {
       setError(err.message || "Something went wrong");

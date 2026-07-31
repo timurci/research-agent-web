@@ -4,6 +4,7 @@ import {
   SparklesIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react";
+import { sendFeedback } from "../api/client";
 
 export function LoadingStatus() {
   const words = [
@@ -51,19 +52,38 @@ export function LoadingStatus() {
 }
 
 function ResultFeedback({ traceId }) {
+  const [selected, setSelected] = useState(null);
+
+  function handleVote(choice) {
+    if (selected === choice) {
+      return;
+    }
+    setSelected(choice);
+    sendFeedback({ traceId, useful: choice === "yes" }).catch(() => {});
+  }
+
+  const accent =
+    "bg-amber-500 text-white shadow-md shadow-black/10";
+  const plain = "bg-zinc-300 text-zinc-900 hover:bg-zinc-400";
+
   return (
     <div className="flex flex-col justify-center text-zinc-800 dark:text-zinc-50 gap-2">
       <div className="flex gap-2 justify-center">
         <p className="p-2">Was this result helpful?</p>
-        <button className="cursor-pointer bg-zinc-300 text-zinc-900 font-bold p-2 min-w-16 rounded-4xl">
+        <button
+          onClick={() => handleVote("yes")}
+          className={`cursor-pointer font-bold p-2 min-w-16 rounded-4xl transition ${selected === "yes" ? accent : plain}`}
+        >
           Yes
         </button>
-        <button className="cursor-pointer bg-zinc-300 text-zinc-900 font-bold p-2 min-w-16 rounded-4xl">
+        <button
+          onClick={() => handleVote("no")}
+          className={`cursor-pointer font-bold p-2 min-w-16 rounded-4xl transition ${selected === "no" ? accent : plain}`}
+        >
           No
         </button>
       </div>
     </div>
-    // send feedback to backend
   );
 }
 

@@ -7,8 +7,21 @@ This is a minimal frontend implementation for the
 ## Tech stack
 - React 19
 - Tailwind CSS v4
+- Zod (API response validation)
+
+## Configuration
+The backend base URL is read from the `BACKEND_BASE_URL` environment variable at
+build time. For local development, copy `.env.example` to `.env`:
+
+```sh
+cp .env.example .env
+```
+
+The GitHub Pages workflow injects `BACKEND_BASE_URL` during the production
+build, so make sure the `BACKEND_BASE_URL` repository secret is set (repo
+settings → Secrets and variables → Actions).
 
 ## Status
-This frontend is not yet integrated with the backend and is not fully functional
-as intended. It currently displays mock data and does not collect feedback or any
-user queries.
+The frontend is integrated with the research-agent backend: search queries hit
+`POST /search`, thumbs feedback is sent to `POST /feedback`, and the navbar shows
+the liveness of the backend via `GET /health`.
