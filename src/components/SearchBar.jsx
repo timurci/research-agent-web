@@ -1,11 +1,16 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const MIN_QUERY_LENGTH = 5;
 
-function SearchBar({ onSearch }) {
-  const [query, setQuery] = useState("");
+function SearchBar({ query, onQueryChange, onSearch }) {
   const [hint, setHint] = useState("");
+
+  useEffect(() => {
+    if (query.trim().length >= MIN_QUERY_LENGTH) {
+      setHint("");
+    }
+  }, [query]);
 
   function submit(rawQuery) {
     const trimmed = rawQuery.trim();
@@ -22,7 +27,7 @@ function SearchBar({ onSearch }) {
       <div className="flex w-full text-zinc-800 bg-zinc-200 dark:text-zinc-100 dark:bg-zinc-600 p-5 rounded-4xl shadow-md shadow-black/10">
         <TextArea
           query={query}
-          setQuery={setQuery}
+          setQuery={onQueryChange}
           onSubmit={() => submit(query)}
           onInvalid={setHint}
         />

@@ -10,6 +10,10 @@ export const FeedbackBodySchema = z.object({
   comment: z.string().nullable().optional(),
 });
 
+export function normalizeDoi(doi) {
+  return encodeURIComponent(doi.trim().replace(/^https?:\/\/doi\.org\//, "").replace(/^doi:\s*/, ""));
+}
+
 export const PaperInfoSchema = z
   .object({
     title: z.string().min(10),

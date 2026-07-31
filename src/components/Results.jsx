@@ -6,6 +6,7 @@ import {
 import { useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { sendFeedback } from "../api/client";
+import { normalizeDoi } from "../api/schemas";
 
 export function LoadingStatus() {
   const words = [
@@ -14,12 +15,13 @@ export function LoadingStatus() {
     "Thinking",
     "Discovering",
     "Synthesizing",
-    "Cooking",
-    "Baking",
+    "Reviewing",
+    "Ranking",
     "Analyzing",
   ];
   const [word, setWord] = useState(words[0]);
   const [dots, setDots] = useState("");
+  const [seconds, setSeconds] = useState(0);
 
   function getNextWord(currentWord) {
     let next;
@@ -32,7 +34,7 @@ export function LoadingStatus() {
   useEffect(() => {
     const interval = setInterval(() => {
       setWord((prev) => getNextWord(prev));
-    }, 3000);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
@@ -44,10 +46,26 @@ export function LoadingStatus() {
     return () => clearInterval(dotInterval);
   }, []);
 
+  useEffect(() => {
+    const secondInterval = setInterval(() => {
+      setSeconds((prev) => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(secondInterval);
+  }, []);
+
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = String(seconds % 60).padStart(2, "0");
+
   return (
-    <div className="text-zinc-800 dark:text-zinc-50 text-lg">
-      {word}
-      {dots}
+    <div className="flex flex-col items-center gap-2">
+      <div className="text-zinc-800 dark:text-zinc-50 text-lg">
+        {word}
+        {dots}
+      </div>
+      <p className="text-sm text-zinc-400 dark:text-zinc-500 font-normal">
+        Expected runtime: ~2 minutes · {minutes}:{remainingSeconds} elapsed
+      </p>
     </div>
   );
 }
@@ -63,8 +81,7 @@ function ResultFeedback({ traceId }) {
     sendFeedback({ traceId, useful: choice === "yes" }).catch(() => {});
   }
 
-  const accent =
-    "bg-amber-500 text-white shadow-md shadow-black/10";
+  const accent = "bg-amber-500 text-white shadow-md shadow-black/10";
   const plain = "bg-zinc-300 text-zinc-900 hover:bg-zinc-400";
 
   return (
@@ -118,6 +135,9 @@ export function SearchResults({ results }) {
           Download results (JSON)
         </button>
       </div>
+      <p className="text-sm text-zinc-400 dark:text-zinc-500 font-normal text-center">
+        Found {results.papers.length} papers
+      </p>
       <div className="max-h-[60vh] overflow-y-auto overscroll-contain pr-2 [mask-image:linear-gradient(to_bottom,black_97%,transparent)]">
         <ol className="flex flex-col gap-3 list-none p-0">
           {results.papers.map((result, index) => (
@@ -136,9 +156,7 @@ function SuggestionCard({ suggestion }) {
         <SparklesIcon className="size-6 mt-0.5 shrink-0 text-amber-500 dark:text-amber-400" />
         <div>
           <p className="font-semibold mb-1">Suggested approach</p>
-          <ReactMarkdown
-            className="prose prose-sm max-w-none dark:prose-invert prose-a:text-amber-600 prose-a:font-medium dark:prose-a:text-amber-400"
-          >
+          <ReactMarkdown className="prose prose-sm max-w-none dark:prose-invert prose-a:text-amber-600 prose-a:font-medium dark:prose-a:text-amber-400">
             {suggestion}
           </ReactMarkdown>
         </div>
@@ -190,6 +208,15 @@ function PaperCard({ paper }) {
             className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium hover:underline"
           >
             Download PDF
+            <ArrowTopRightOnSquareIcon className="size-4" />
+          </a>
+        )}
+        {paper.doi && (
+          <a
+            href={`https://doi.org/${normalizeDoi(paper.doi)}`}
+            className="inline-flex items-center gap-1 text-amber-600 dark:text-amber-400 font-medium hover:underline"
+          >
+            DOI: {paper.doi}
             <ArrowTopRightOnSquareIcon className="size-4" />
           </a>
         )}

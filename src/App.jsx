@@ -7,9 +7,16 @@ import Footer from "./components/Footer";
 import { searchResearch } from "./api/client";
 
 function App() {
+  const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
+
+  const exampleQueries = [
+    "RAG vs fine-tuning for LLMs",
+    "Graph neural networks for drug discovery",
+    "Retinal detachment surgery outcomes",
+  ];
 
   async function handleSearch(query) {
     setLoading(true);
@@ -33,12 +40,34 @@ function App() {
       </div>
       <main className="flex flex-1 flex-col">
         <div className="flex flex-1 flex-col justify-center items-center px-4 pt-20 pb-10">
-          <h1 className="text-center font-bold text-5xl md:text-6xl text-zinc-700 dark:text-zinc-50 mb-20">
-            Research Agent
-          </h1>
-          <div className="mb-8 w-full flex justify-center">
-            <SearchBar onSearch={handleSearch} />
+          <div className="mb-20 text-center">
+            <h1 className="font-display font-extralight tracking-tight text-5xl md:text-6xl text-zinc-700 dark:text-zinc-50">
+              Research Agent
+            </h1>
+            <p className="mt-3 text-lg text-zinc-400 dark:text-zinc-500">
+              Enhance your literature search
+            </p>
           </div>
+          <div className="mb-8 w-full flex justify-center">
+            <SearchBar
+              query={query}
+              onQueryChange={setQuery}
+              onSearch={handleSearch}
+            />
+          </div>
+          {!loading && !results && (
+            <div className="mb-8 flex flex-wrap justify-center gap-2 px-4">
+              {exampleQueries.map((example) => (
+                <button
+                  key={example}
+                  onClick={() => setQuery(example)}
+                  className="cursor-pointer text-sm text-zinc-500 dark:text-zinc-400 bg-zinc-200 dark:bg-zinc-600 px-3 py-1 rounded-full hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-300 dark:hover:bg-zinc-500 transition"
+                >
+                  {example}
+                </button>
+              ))}
+            </div>
+          )}
 
           <div
             className="grid w-full transition-all duration-500 ease-out"
