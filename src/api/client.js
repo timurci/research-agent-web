@@ -57,7 +57,7 @@ async function request(path, options = {}) {
 
 export async function getHealth() {
   const data = await request("/health", {
-    signal: AbortSignal.timeout(5000),
+    signal: AbortSignal.timeout(2000),
   });
   return HealthResponseSchema.parse(data);
 }

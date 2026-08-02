@@ -6,6 +6,7 @@ function ServerStatus({ backendUrl }) {
 
   useEffect(() => {
     let cancelled = false;
+    setStatus("down");
     getHealth()
       .then((health) => {
         if (!cancelled && health.status === "ok") {
