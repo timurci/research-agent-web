@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getHealth } from "../api/client";
 
-function ServerStatus() {
+function ServerStatus({ backendUrl }) {
   const [status, setStatus] = useState("down");
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function ServerStatus() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [backendUrl]);
 
   const isUp = status === "ok";
   const dot = isUp ? "bg-green-500" : "bg-red-500";
@@ -25,17 +25,7 @@ function ServerStatus() {
   return (
     <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-300 text-sm font-medium p-2 md:p-4">
       <span className={`size-2 rounded-full ${dot}`} />
-      <span className={text}>{isUp ? "Server is online" : "Server is waking up"}</span>
-      {!isUp && (
-        <>
-          <span className="hidden sm:inline text-zinc-400 dark:text-zinc-500 font-normal">
-            wakes up in ~1 min
-          </span>
-          <span className="hidden sm:inline text-zinc-400 dark:text-zinc-500 font-normal">
-            · or try disabling your adblocker
-          </span>
-        </>
-      )}
+      <span className={text}>{isUp ? "Connected" : "Disconnected"}</span>
     </div>
   );
 }

@@ -1,6 +1,12 @@
 import { HealthResponseSchema, SearchResponseSchema } from "./schemas";
 
-const BASE_URL = import.meta.env.BACKEND_BASE_URL;
+const ENV_BASE_URL = import.meta.env.BACKEND_BASE_URL;
+export const BASE_URL_KEY = "backendBaseUrl";
+
+export function getBaseUrl() {
+  const override = localStorage.getItem(BASE_URL_KEY)?.trim();
+  return override ? override.replace(/\/+$/, "") : ENV_BASE_URL;
+}
 
 export class ApiError extends Error {
   constructor(message, status) {
@@ -25,6 +31,7 @@ async function errorMessage(response) {
 }
 
 async function request(path, options = {}) {
+  const BASE_URL = getBaseUrl();
   if (!BASE_URL) {
     throw new ApiError(
       "Backend is not configured (BACKEND_BASE_URL is not set)",
@@ -50,7 +57,7 @@ async function request(path, options = {}) {
 
 export async function getHealth() {
   const data = await request("/health", {
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(5000),
   });
   return HealthResponseSchema.parse(data);
 }
