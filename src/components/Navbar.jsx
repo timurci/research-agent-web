@@ -10,7 +10,7 @@ function Navbar() {
   );
 
   return (
-    <nav className="flex justify-between items-center p-2 md:p-4">
+    <nav className="flex justify-between items-center p-2 sm:p-4">
       <div className="flex items-center gap-2">
         <ServerSettings value={backendUrl} onChange={setBackendUrl} />
         <ServerStatus backendUrl={backendUrl} />

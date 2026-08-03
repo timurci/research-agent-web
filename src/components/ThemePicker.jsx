@@ -1,4 +1,5 @@
 import { MoonIcon } from "@heroicons/react/24/solid";
+import { DevicePhoneMobileIcon } from "@heroicons/react/24/solid";
 import { ComputerDesktopIcon } from "@heroicons/react/24/solid";
 import { SunIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
@@ -24,7 +25,7 @@ function ThemePicker() {
   }
 
   return (
-    <div className="flex w-fit gap-1 p-1 md:p-1.5 text-zinc-800 bg-zinc-400 inset-shadow-black/20 inset-shadow-sm rounded-4xl">
+    <div className="flex w-fit gap-1 p-1 sm:p-1.5 text-zinc-800 bg-zinc-400 inset-shadow-black/20 inset-shadow-sm rounded-4xl">
       <ThemeButton
         value={<SunIcon className="size-7" />}
         active={theme === "light"}
@@ -36,7 +37,12 @@ function ThemePicker() {
         onClick={() => handleTheme("dark")}
       />
       <ThemeButton
-        value={<ComputerDesktopIcon className="size-7" />}
+        value={
+          <div>
+            <ComputerDesktopIcon className="hidden sm:block size-7" />
+            <DevicePhoneMobileIcon className="block sm:hidden size-7" />
+          </div>
+        }
         active={theme === null}
         onClick={() => handleTheme(null)}
       />
@@ -50,7 +56,7 @@ function ThemeButton({ value, active, onClick }) {
     : "hover:bg-zinc-300";
   return (
     <button
-      className={`transition cursor-pointer p-1 md:p-1.5 rounded-4xl ${accent}`}
+      className={`transition cursor-pointer p-1 sm:p-1.5 rounded-4xl ${accent}`}
       onClick={onClick}
     >
       {value}
